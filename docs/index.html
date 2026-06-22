@@ -82,7 +82,8 @@
   .play-badge b{font-size:1.15rem; line-height:1.1}
   .chip{font-size:.85rem; color:var(--green); border:1px solid rgba(123,224,163,.4); background:rgba(123,224,163,.1);
     padding:.55rem .85rem; border-radius:999px; font-weight:700}
-  .art{display:grid; place-items:center; position:relative}
+  .art{display:grid; place-items:center; position:relative; perspective:900px;
+    transform-style:preserve-3d; transition:transform .25s ease}
   .glow{position:absolute; width:300px; height:300px; border-radius:50%;
     background:radial-gradient(circle, rgba(255,200,74,.28), transparent 65%); filter:blur(8px); animation:breathe 5s ease-in-out infinite}
   @keyframes breathe{0%,100%{opacity:.6;transform:scale(.95)}50%{opacity:1;transform:scale(1.08)}}
@@ -135,10 +136,60 @@
     .art{order:-1}
   }
   @media(max-width:460px){ .grid{grid-template-columns:1fr} }
-  @media(prefers-reduced-motion:reduce){ *{animation:none !important} .brick{opacity:1} }
+
+  /* Scroll progress bar */
+  .progress{position:fixed; top:0; left:0; height:3px; width:0; z-index:20;
+    background:linear-gradient(90deg,var(--gold),var(--pink),var(--blue),var(--green));
+    box-shadow:0 0 12px rgba(255,200,74,.5); transition:width .08s linear}
+
+  /* Active nav link */
+  nav a.lnk.active{color:#fff}
+  nav a.lnk{position:relative}
+  nav a.lnk::after{content:""; position:absolute; left:0; right:0; bottom:-2px; height:2px; border-radius:2px;
+    background:linear-gradient(90deg,var(--gold),var(--blue)); transform:scaleX(0); transform-origin:left;
+    transition:transform .2s ease}
+  nav a.lnk:hover::after, nav a.lnk.active::after{transform:scaleX(1)}
+
+  /* Scroll reveal */
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1; transform:none}
+  .grid .feat.reveal, .steps .step.reveal{transition-delay:var(--d,0s)}
+
+  /* FAQ accordion */
+  .faq{max-width:760px; margin:6px auto 0; display:flex; flex-direction:column; gap:12px}
+  .qa{background:linear-gradient(170deg,rgba(255,255,255,.05),rgba(255,255,255,.012));
+    border:1px solid rgba(255,255,255,.1); border-radius:14px; overflow:hidden; transition:border-color .16s ease}
+  .qa[open]{border-color:var(--ring)}
+  .qa summary{list-style:none; cursor:pointer; padding:16px 18px; font-weight:700; display:flex; align-items:center; gap:12px;
+    color:var(--text); user-select:none}
+  .qa summary::-webkit-details-marker{display:none}
+  .qa summary .pm{margin-left:auto; flex:0 0 22px; height:22px; width:22px; position:relative; transition:transform .2s ease}
+  .qa summary .pm::before, .qa summary .pm::after{content:""; position:absolute; inset:0; margin:auto; background:var(--gold)}
+  .qa summary .pm::before{width:13px; height:2.5px; border-radius:2px}
+  .qa summary .pm::after{width:2.5px; height:13px; border-radius:2px; transition:transform .2s ease}
+  .qa[open] summary .pm::after{transform:rotate(90deg)}
+  .qa[open] summary .pm{transform:rotate(180deg)}
+  .qa .ans{padding:0 18px 16px; color:var(--muted); font-size:.97rem}
+
+  /* Back to top */
+  .totop{position:fixed; right:20px; bottom:20px; z-index:15; width:46px; height:46px; border-radius:50%;
+    display:grid; place-items:center; cursor:pointer; border:1px solid var(--ring); color:#fff;
+    background:linear-gradient(160deg,#232b55,#191e3d); box-shadow:0 10px 26px rgba(0,0,0,.45);
+    opacity:0; transform:translateY(14px) scale(.9); pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease, box-shadow .15s ease}
+  .totop.show{opacity:1; transform:none; pointer-events:auto}
+  .totop:hover{transform:translateY(-3px); box-shadow:0 16px 34px rgba(0,0,0,.55)}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important}
+    .brick{opacity:1}
+    .reveal{opacity:1 !important; transform:none !important}
+    .progress{transition:none}
+  }
 </style>
 </head>
 <body>
+<div class="progress" aria-hidden="true"></div>
 <div class="sky" aria-hidden="true">
   <div class="aurora"></div>
   <div class="stars"></div>
@@ -153,6 +204,7 @@
   </a>
   <span class="spacer"></span>
   <a class="lnk hideSm" href="#features">Features</a>
+  <a class="lnk hideSm" href="#faq">FAQ</a>
   <a class="lnk" href="privacy_policy.html">Privacy</a>
   <a class="lnk" href="delete.html">Data&nbsp;Deletion</a>
 </nav>
@@ -201,32 +253,32 @@
       </svg>
     </div>
   </header>
-  <div class="stats">
-    <div class="stat"><div class="num">6</div><div class="lbl">block-skin worlds</div></div>
-    <div class="stat"><div class="num">60+</div><div class="lbl">sky critters to collect</div></div>
-    <div class="stat"><div class="num">3</div><div class="lbl">global leaderboards</div></div>
+  <div class="stats reveal">
+    <div class="stat"><div class="num" data-count="6">0</div><div class="lbl">block-skin worlds</div></div>
+    <div class="stat"><div class="num" data-count="60" data-suffix="+">0</div><div class="lbl">sky critters to collect</div></div>
+    <div class="stat"><div class="num" data-count="3">0</div><div class="lbl">global leaderboards</div></div>
     <div class="stat"><div class="num">&#8734;</div><div class="lbl">sky to climb</div></div>
   </div>
   <section id="features">
-    <h2 class="h2">Easy to learn. Hard to put down.</h2>
-    <p class="sub">A pure pick-up-and-play arcade loop wrapped in a calm, colourful sky.</p>
+    <h2 class="h2 reveal">Easy to learn. Hard to put down.</h2>
+    <p class="sub reveal">A pure pick-up-and-play arcade loop wrapped in a calm, colourful sky.</p>
     <div class="grid">
-      <div class="feat">
+      <div class="feat reveal" style="--d:0s">
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffc84a" stroke-width="2"><rect x="6" y="14" width="12" height="5" rx="1.5"/><rect x="7.5" y="9" width="9" height="5" rx="1.5"/><rect x="9" y="4" width="6" height="5" rx="1.5"/></svg></div>
         <h3>Stack &amp; Climb</h3>
         <p>One tap drops each block. Time it right and your tower reaches ever higher.</p>
       </div>
-      <div class="feat">
+      <div class="feat reveal" style="--d:.08s">
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="#7be0a3"><path d="M12 2l2.9 6.3L22 9l-5 4.6L18.2 21 12 17.4 5.8 21 7 13.6 2 9l7.1-.7z"/></svg></div>
         <h3>Perfect Combos</h3>
         <p>Nail eight perfects in a row — blocks grow bigger and play a rising musical scale.</p>
       </div>
-      <div class="feat">
+      <div class="feat reveal" style="--d:.16s">
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7db8ff" stroke-width="2" stroke-linecap="round"><path d="M4 14c4-6 12-6 16 0"/><path d="M8 13c0-3 8-3 8 0"/><circle cx="12" cy="13" r="1.6" fill="#7db8ff"/></svg></div>
         <h3>Collect the Sky</h3>
         <p>Discover birds, butterflies, dragons and UFOs — every find fills your Critter Book.</p>
       </div>
-      <div class="feat">
+      <div class="feat reveal" style="--d:.24s">
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff8fb8" stroke-width="2" stroke-linecap="round"><path d="M6 21V11M12 21V4M18 21v-7"/></svg></div>
         <h3>Compete</h3>
         <p>Global leaderboards, daily quests, ranks and unlockable block skins with their own music.</p>
@@ -234,11 +286,33 @@
     </div>
   </section>
   <section>
-    <h2 class="h2">How it plays</h2>
+    <h2 class="h2 reveal">How it plays</h2>
     <div class="steps">
-      <div class="step"><span class="n">1</span><div><b>Tap to drop</b><span>The block slides — release it onto the one below.</span></div></div>
-      <div class="step"><span class="n">2</span><div><b>Land it perfectly</b><span>Centre it to snap, grow, and build your combo.</span></div></div>
-      <div class="step"><span class="n">3</span><div><b>Climb the sky</b><span>Chase your high score and the global top spot.</span></div></div>
+      <div class="step reveal" style="--d:0s"><span class="n">1</span><div><b>Tap to drop</b><span>The block slides — release it onto the one below.</span></div></div>
+      <div class="step reveal" style="--d:.1s"><span class="n">2</span><div><b>Land it perfectly</b><span>Centre it to snap, grow, and build your combo.</span></div></div>
+      <div class="step reveal" style="--d:.2s"><span class="n">3</span><div><b>Climb the sky</b><span>Chase your high score and the global top spot.</span></div></div>
+    </div>
+  </section>
+  <section id="faq">
+    <h2 class="h2 reveal">Frequently asked</h2>
+    <p class="sub reveal">Everything you might want to know before your first climb.</p>
+    <div class="faq">
+      <details class="qa reveal">
+        <summary>Is Skyward Spire free?<span class="pm"></span></summary>
+        <div class="ans">Yes — it&rsquo;s free to play. Optional ads and cosmetic block skins help support development, but you can climb as high as you like without spending a thing.</div>
+      </details>
+      <details class="qa reveal">
+        <summary>Do I need an account to play?<span class="pm"></span></summary>
+        <div class="ans">No account is required. Sign in with Google Play Games if you&rsquo;d like cloud-saved progress and a spot on the global leaderboards — otherwise everything stays on your device.</div>
+      </details>
+      <details class="qa reveal">
+        <summary>Does it work offline?<span class="pm"></span></summary>
+        <div class="ans">Absolutely. The full game plays offline. An internet connection is only needed for leaderboards, daily quests and the occasional ad.</div>
+      </details>
+      <details class="qa reveal">
+        <summary>When does it launch?<span class="pm"></span></summary>
+        <div class="ans">Skyward Spire is coming soon to Google Play. Tap <em>Coming soon to Google Play</em> above to be taken to the store the moment it&rsquo;s live.</div>
+      </details>
     </div>
   </section>
   <footer>
@@ -251,5 +325,97 @@
     <div>&copy; 2026 Mandras Entertainment &middot; Skyward Spire</div>
   </footer>
 </div>
+<button class="totop" id="totop" aria-label="Back to top" title="Back to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cfe0ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M6 12l6-6 6 6"/></svg>
+</button>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Scroll progress bar + back-to-top visibility
+  var bar = document.querySelector('.progress');
+  var toTop = document.getElementById('totop');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    if(bar) bar.style.width = pct + '%';
+    if(toTop) toTop.classList.toggle('show', h.scrollTop > 480);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if(toTop){
+    toTop.addEventListener('click', function(){
+      window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+    });
+  }
+
+  // Count-up for stats
+  function countUp(el){
+    var target = parseFloat(el.getAttribute('data-count'));
+    var suffix = el.getAttribute('data-suffix') || '';
+    if(reduce){ el.textContent = target + suffix; return; }
+    var start = null, dur = 1100;
+    function tick(t){
+      if(start === null) start = t;
+      var p = Math.min((t - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // Scroll reveal + trigger count-up
+  var reveals = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window && !reduce){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('in');
+          en.target.querySelectorAll && en.target.querySelectorAll('[data-count]').forEach(countUp);
+          io.unobserve(en.target);
+        }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -8% 0px'});
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+    document.querySelectorAll('[data-count]').forEach(countUp);
+  }
+
+  // Active nav link on scroll (in-page sections)
+  var sections = [].slice.call(document.querySelectorAll('section[id]'));
+  var navLinks = {};
+  document.querySelectorAll('nav a.lnk[href^="#"]').forEach(function(a){
+    navLinks[a.getAttribute('href').slice(1)] = a;
+  });
+  if(sections.length && 'IntersectionObserver' in window){
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          var link = navLinks[en.target.id];
+          if(link) link.classList.add('active');
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px'});
+    sections.forEach(function(s){ spy.observe(s); });
+  }
+
+  // Subtle pointer tilt on hero art (the .art container has no keyframe animation,
+  // so this won't fight the tower's bob)
+  var art = document.querySelector('.art');
+  if(art && !reduce && window.matchMedia('(pointer:fine)').matches){
+    art.addEventListener('pointermove', function(e){
+      var r = art.getBoundingClientRect();
+      var dx = (e.clientX - r.left) / r.width - .5;
+      var dy = (e.clientY - r.top) / r.height - .5;
+      art.style.transform = 'rotateY(' + (dx * 9) + 'deg) rotateX(' + (-dy * 9) + 'deg)';
+    });
+    art.addEventListener('pointerleave', function(){ art.style.transform = ''; });
+  }
+})();
+</script>
 </body>
 </html>
