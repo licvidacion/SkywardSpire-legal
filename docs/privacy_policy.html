@@ -5,119 +5,155 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy Policy — Skyward Spire</title>
 <style>
-  :root {
-    --bg: #0f1224;
-    --card: #171b35;
-    --text: #e8ecff;
-    --muted: #aab3dd;
-    --accent: #ffc84a;
-    --accent-2: #7db8ff;
-  }
-
-  * { box-sizing: border-box; }
-
-  body {
-    margin: 0;
-    min-height: 100vh;
-    padding: 1.2rem;
-    color: var(--text);
+  :root{ --bg:#0b0e20; --text:#eaeeff; --muted:#a7b0db; --gold:#ffc84a; --blue:#7db8ff; }
+  *{box-sizing:border-box}
+  body{
+    margin:0; color:var(--text); line-height:1.65;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     background:
-      radial-gradient(1000px 500px at 0% -10%, #2a3268 0%, transparent 60%),
-      radial-gradient(900px 450px at 100% 110%, #283f77 0%, transparent 60%),
+      radial-gradient(1100px 600px at 8% -8%, #33407e 0%, transparent 58%),
+      radial-gradient(1000px 520px at 100% 4%, #6a3b7a 0%, transparent 55%),
       var(--bg);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.6;
   }
-
-  .card {
-    width: min(850px, 100%);
-    margin: 0 auto;
-    background: linear-gradient(170deg, rgba(255,255,255,.06), rgba(255,255,255,.01));
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 18px;
-    padding: 2rem;
-    box-shadow: 0 16px 40px rgba(0,0,0,.35);
-  }
-
-  h1 { color: var(--accent); margin: 0; }
-  h2 { color: var(--accent-2); margin-top: 2rem; }
-  h3 { color: #d9e6ff; margin-top: 1.2rem; }
-  .meta { color: var(--muted); font-size: .95rem; margin-bottom: 1.4rem; }
-
-  .home {
-    display: inline-block;
-    margin-bottom: 1rem;
-    text-decoration: none;
-    color: #cde5ff;
-    border: 1px solid rgba(205,229,255,.4);
-    background: rgba(125,184,255,.12);
-    padding: .45rem .8rem;
-    border-radius: 999px;
-  }
-  .home:hover { background: rgba(125,184,255,.2); }
-
-  a { color: #9fd0ff; }
-  a:hover { color: #c2e0ff; }
-
-  ul { padding-left: 1.2rem; }
-  li { margin: .22rem 0; }
-
-  hr { border: 0; border-top: 1px solid rgba(255,255,255,.15); margin: 2.2rem 0 1.2rem; }
+  .stars{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.45;
+    background-image:
+      radial-gradient(1.4px 1.4px at 20% 30%, #fff 40%, transparent),
+      radial-gradient(1.2px 1.2px at 70% 20%, #cfe0ff 40%, transparent),
+      radial-gradient(1.5px 1.5px at 40% 70%, #fff 40%, transparent),
+      radial-gradient(1.1px 1.1px at 85% 60%, #ffe9b8 40%, transparent);
+    background-repeat:repeat; background-size:520px 520px; animation:tw 7s ease-in-out infinite alternate}
+  @keyframes tw{from{opacity:.25}to{opacity:.55}}
+  nav{position:sticky; top:0; z-index:10; display:flex; align-items:center; gap:14px; padding:14px 20px;
+    backdrop-filter:blur(10px); background:linear-gradient(180deg, rgba(11,14,32,.78), rgba(11,14,32,.25));
+    border-bottom:1px solid rgba(255,255,255,.07)}
+  nav .brand{display:inline-flex;align-items:center;gap:9px;font-weight:800;color:var(--text);text-decoration:none} nav .brand b{color:var(--gold)}
+  nav .brand:hover .logo-badge{transform:translateY(-1px) rotate(-6deg);box-shadow:0 8px 20px rgba(255,200,74,.28)}
+  .logo-badge{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(160deg,#2a356f,#43275f);border:1px solid rgba(255,255,255,.16);box-shadow:0 5px 14px rgba(0,0,0,.35);transition:transform .18s ease, box-shadow .18s ease}
+  nav .spacer{flex:1}
+  nav a{color:#cfe0ff; text-decoration:none; font-weight:600; font-size:.95rem}
+  nav a:hover{color:#fff}
+  main{position:relative; z-index:1; width:min(850px,100%); margin:26px auto; padding:0 20px 60px}
+  .card{background:linear-gradient(170deg,rgba(255,255,255,.06),rgba(255,255,255,.012));
+    border:1px solid rgba(255,255,255,.12); border-radius:18px; padding:2rem; box-shadow:0 16px 40px rgba(0,0,0,.35)}
+  h1{color:var(--gold); margin:0}
+  h2{color:var(--blue); margin-top:2rem}
+  h3{color:#d9e6ff; margin-top:1.2rem}
+  .meta{color:var(--muted); font-size:.95rem; margin-bottom:1.4rem}
+  a{color:#9fd0ff} a:hover{color:#c2e0ff}
+  ul{padding-left:1.2rem} li{margin:.22rem 0}
+  hr{border:0; border-top:1px solid rgba(255,255,255,.15); margin:2.2rem 0 1.2rem}
 </style>
 </head>
 <body>
-<main class="card">
-<a class="home" href="index.html">← Back to home</a>
+<div class="stars"></div>
+<nav>
+  <a class="brand" href="index.html" aria-label="Skyward Spire home"><span class="logo-badge"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2l3 5 3 4-6 11-6-11 3-4 3-5z" fill="#ffc84a"/></svg></span>Skyward&nbsp;<b>Spire</b></a>
+  <span class="spacer"></span>
+  <a href="index.html">Home</a> &nbsp; <a href="delete.html">Data Deletion</a>
+</nav>
+
+<main>
+<div class="card">
 
 <h1>Privacy Policy</h1>
-<p class="meta">Skyward Spire · Last updated: May 2026</p>
+<p class="meta">Skyward Spire (com.mandras.skywardspire) · Last updated: May 2026</p>
 
-<p>This Privacy Policy describes how your information is collected, used, and shared when
-you play <strong>Skyward Spire</strong> (the &ldquo;Game&rdquo;).</p>
+<p>This Privacy Policy describes how your information is collected, used, and shared when you play
+<strong>Skyward Spire</strong> (the &ldquo;Game&rdquo;). The Game is <strong>not directed at children
+under 13</strong>; we do not knowingly collect personal data from children.</p>
 
 <h2>1. Information We Collect</h2>
-
-<h3>1.1 Information collected automatically</h3>
-<p>When you use the Game, we may automatically collect certain information, including:</p>
+<h3>1.1 Collected automatically</h3>
 <ul>
-  <li>Device type, operating system, and version</li>
-  <li>Unique device identifiers (e.g., advertising ID)</li>
-  <li>Game progress and usage statistics (e.g., scores, levels completed)</li>
+  <li>Device type, operating system and version</li>
+  <li>Unique device / advertising identifiers</li>
+  <li>Game progress and usage statistics (e.g. scores, levels)</li>
   <li>Crash logs and performance data</li>
   <li>Language and region settings</li>
 </ul>
-
-<h3>1.2 Information collected through ads</h3>
+<h3>1.2 Through ads</h3>
 <p>Our advertising partners may collect:</p>
 <ul>
-  <li>Advertising identifier (IDFA/GAID)</li>
-  <li>IP address (used to estimate general location, not precise GPS)</li>
-@@ -118,28 +165,28 @@ information, please contact us so we can delete it.</p>
+  <li>Advertising identifier (GAID/IDFA)</li>
+  <li>IP address (used to estimate general region, not precise GPS)</li>
+  <li>Ad interaction data (impressions, clicks)</li>
+</ul>
+<h3>1.3 What we do NOT collect</h3>
+<ul>
+  <li>Your name, email or contact details</li>
+  <li>Precise / GPS location</li>
+  <li>Photos, contacts, microphone or other personal files</li>
+  <li>Payment card information (handled by Google Play)</li>
+</ul>
+
+<h2>2. How We Use Your Information</h2>
+<ul>
+  <li>Operate, maintain and improve the Game</li>
+  <li>Serve personalised or non-personalised ads</li>
+  <li>Provide optional leaderboards, achievements and cloud saves</li>
+  <li>Analyse performance and fix bugs</li>
+  <li>Prevent fraud and abuse, and comply with legal obligations</li>
+</ul>
+<p>We do <strong>not</strong> sell your personal information.</p>
+
+<h2>3. Third-Party Services</h2>
+<ul>
+  <li><strong>Google AdMob</strong> (ads) — <a href="https://policies.google.com/privacy">policy</a></li>
+  <li><strong>Google Firebase</strong> (Analytics &amp; Crashlytics) — <a href="https://firebase.google.com/support/privacy">policy</a></li>
+  <li><strong>Google Play Games Services</strong> (sign-in, leaderboards, cloud save) — <a href="https://policies.google.com/privacy">policy</a></li>
+  <li><strong>Google Play Billing</strong> (purchases) — <a href="https://policies.google.com/privacy">policy</a></li>
+</ul>
+
+<h2>4. Advertising &amp; Consent (EEA/UK)</h2>
+<p>We use Google AdMob. If you are in the EEA, UK or Switzerland, you will be asked for consent (via
+Google&rsquo;s certified consent form) before any <strong>personalised</strong> ads are shown. You can
+change or withdraw consent any time in the Game&rsquo;s Settings → Privacy → &ldquo;Manage Ad
+Preferences&rdquo;. Without consent you still see <strong>non-personalised</strong> ads.</p>
+
+<h2>5. In-App Purchases</h2>
+<p>The Game offers optional purchases (gem packs, &ldquo;No Ads&rdquo;). All transactions are processed
+by Google Play; we do not collect or store your payment information.</p>
+
+<h2>6. Data Retention &amp; Deletion</h2>
+<p>Game progress and preferences are stored on your device, and — only if you sign in to Google Play
+Games — backed up to your Google-managed cloud save. Analytics data is retained for up to 24 months,
+then deleted or anonymised. You can delete your data at any time — see
+<a href="delete.html">Data Deletion</a>.</p>
+
+<h2>7. Your Rights (GDPR / EEA)</h2>
+<ul>
+  <li>Access the personal data we hold about you</li>
+  <li>Request correction or deletion of your data</li>
+  <li>Withdraw consent for personalised ads at any time</li>
+  <li>Object to processing, and lodge a complaint with your local authority</li>
+</ul>
+
+<h2>8. Your Rights (CCPA / California)</h2>
+<ul>
+  <li>Know what personal information we collect</li>
+  <li>Request deletion of your personal information</li>
+  <li>Opt out of the sale of personal information — we do not sell it</li>
+</ul>
 
 <h2>9. Data Security</h2>
-<p>We implement reasonable security measures to protect your information. However, no method
-of transmission over the internet or electronic storage is 100% secure.</p>
+<p>We implement reasonable security measures, and data is encrypted in transit. No method of
+transmission or storage is 100% secure, however.</p>
 
-<h2>10. Third-Party Services</h2>
-<p>The Game may contain links to third-party services. We are not responsible for the privacy
-practices of those services. We encourage you to read their privacy policies.</p>
+<h2>10. International Transfers</h2>
+<p>Our providers (Google) may process data on servers outside your country, including the United
+States, governed by their safeguards.</p>
 
 <h2>11. Changes to This Policy</h2>
-<p>We may update this Privacy Policy from time to time. We will notify you of any material
-changes by posting the updated policy within the Game. Your continued use of the Game after
-changes constitutes acceptance of the updated policy.</p>
+<p>We may update this policy from time to time. Material changes will be reflected by a new
+&ldquo;Last updated&rdquo; date above and, where appropriate, an in-Game or store notice.</p>
 
 <h2>12. Contact Us</h2>
-<p>If you have any questions about this Privacy Policy, please contact us at
-<a href="mailto:skywardspire.privacy@gmail.com">skywardspire.privacy@gmail.com</a>.</p>
-
-<h2>13. Consent</h2>
-<p>By using the Game, you consent to the collection and use of information as described in
-this Privacy Policy. If you are in the EEA, we will obtain your explicit consent before
-processing personal data for personalized advertising.</p>
+<p>Questions about this policy, or to request data deletion:
+<a href="mailto:skywardspire.privacy@gmail.com">skywardspire.privacy@gmail.com</a></p>
 
 <hr>
-<p class="meta">&copy; Mandras Entertainment · <a href="index.html">Home</a></p>
+<p class="meta">&copy; 2026 Mandras Entertainment · <a href="index.html">Home</a> · <a href="delete.html">Data Deletion</a></p>
+</div>
 </main>
 </body>
 </html>
